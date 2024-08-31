@@ -33,8 +33,8 @@ func NewFlygooseApp(cfg *configs.Config) *FlygooseApp {
 		ExtractOriginFunc(cors.DefaultOriginExtractor).
 		ReferrerPolicy(cors.NoReferrerWhenDowngrade).
 		AllowOriginFunc(cors.AllowAnyOrigin).
-		AllowHeaders("token", "content-type", "Authorization").
-		ExposeHeaders("token", "content-type", "Authorization").
+		AllowHeaders("token", "content-type", "Authorization", "X-Requested-With").
+		ExposeHeaders("token", "content-type", "Authorization", "X-Requested-With").
 		Handler())
 	return app
 }
@@ -66,7 +66,7 @@ func (m *FlygooseApp) InitDir() {
 	tools.CreateDir(filepath.Join(m.Cfg.ExecuteDir, m.Cfg.StaticImgDir))
 
 	var abcStaticDir = filepath.Join(m.Cfg.ExecuteDir, m.Cfg.StaticDir)
-	m.Engine.HandleDir("/", abcStaticDir) //http://192.168.1.6:29090/img/aa.jpg
+	m.Engine.HandleDir("/static", abcStaticDir) // http://192.168.1.6:29090/img/aa.jpg
 }
 
 func (m *FlygooseApp) initLog() {
@@ -132,6 +132,7 @@ func (m *FlygooseApp) initAutoMigrate() {
 
 func (m *FlygooseApp) initRouter() {
 	v1 := m.Engine.Party(configs.Flygoose_Url_Prefix)
+	v1.RegisterDependency(m.Cfg) // 依赖注入
 	{
 		mvc.New(v1.Party("/site")).Handle(flygoose.NewSiteController())
 		mvc.New(v1.Party("/blog")).Handle(flygoose.NewBlogController())
@@ -145,7 +146,7 @@ func (m *FlygooseApp) initRouter() {
 		mvc.New(v1.Party("/admin/category")).Handle(admin.NewCategoryController())       //博客分类相关接口
 		mvc.New(v1.Party("/admin/notice")).Handle(admin.NewNoticeController())           //公告分类相关接口
 		mvc.New(v1.Party("/admin/special")).Handle(admin.NewSpecialController())         //专栏相关接口
-		mvc.New(v1.Party("/admin/file")).Handle(admin.NewFileController(m.Cfg))          //文件相关接口
+		mvc.New(v1.Party("/admin/file")).Handle(admin.NewFileController())               //文件相关接口
 		mvc.New(v1.Party("/admin/banner")).Handle(admin.NewBannerController())           //轮播图相关接口
 		mvc.New(v1.Party("/admin/workStation")).Handle(admin.NewWorkStationController()) //统计数据
 	}

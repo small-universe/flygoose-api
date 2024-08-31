@@ -15,8 +15,8 @@ type FileController struct {
 	comm.BaseComponent
 }
 
-func NewFileController(cfg *configs.Config) *FileController {
-	return &FileController{Cfg: cfg}
+func NewFileController() *FileController {
+	return &FileController{}
 }
 
 func (c *FileController) BeforeActivation(b mvc.BeforeActivation) {
@@ -58,6 +58,6 @@ func (c *FileController) UploadImg() {
 	}
 
 	c.RespSuccess(iris.Map{
-		"filename": filepath.Join(configs.Flygoose_Url_Prefix, c.Cfg.StaticImgDir, newFileName),
+		"filename": filepath.Join(c.Cfg.StaticImgDir, newFileName),
 	}, "上传文件成功")
 }
