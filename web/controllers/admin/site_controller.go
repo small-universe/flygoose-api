@@ -19,17 +19,17 @@ func NewSiteController() *SiteController {
 }
 
 func (c *SiteController) BeforeActivation(b mvc.BeforeActivation) {
-	//网站信息
-	b.Handle("POST", "/createSite", "CreateSite", middlers.CheckAdminToken)           //创建
-	b.Handle("POST", "/updateSite", "UpdateSite", middlers.CheckAdminToken)           //更新
-	b.Handle("POST", "/getSiteInfoList", "GetSiteInfoList", middlers.CheckAdminToken) //获取网站信息
-	b.Handle("POST", "/getUsedSiteInfo", "GetUsedSiteInfo", middlers.CheckAdminToken) //获取在网站上展示的那一条
+	// 网站信息
+	b.Handle("POST", "/createSite", "CreateSite", middlers.CheckAdminToken)           // 创建
+	b.Handle("POST", "/updateSite", "UpdateSite", middlers.CheckAdminToken)           // 更新
+	b.Handle("POST", "/getSiteInfoList", "GetSiteInfoList", middlers.CheckAdminToken) // 获取网站信息
+	b.Handle("POST", "/getUsedSiteInfo", "GetUsedSiteInfo", middlers.CheckAdminToken) // 获取在网站上展示的那一条
 
-	//站长信息
-	b.Handle("POST", "/createWebmasterInfo", "CreateWebmasterInfo", middlers.CheckAdminToken)   //创建站长信息
-	b.Handle("POST", "/updateWebmasterInfo", "UpdateWebmasterInfo", middlers.CheckAdminToken)   //更新站长信息
-	b.Handle("POST", "/getWebmasterInfo", "GetWebmasterInfo", middlers.CheckAdminToken)         //获取站长信息
-	b.Handle("POST", "/getWebmasterInfoList", "GetWebmasterInfoList", middlers.CheckAdminToken) //获取站长信息
+	// 站长信息
+	b.Handle("POST", "/createWebmasterInfo", "CreateWebmasterInfo", middlers.CheckAdminToken)   // 创建站长信息
+	b.Handle("POST", "/updateWebmasterInfo", "UpdateWebmasterInfo", middlers.CheckAdminToken)   // 更新站长信息
+	b.Handle("POST", "/getWebmasterInfo", "GetWebmasterInfo", middlers.CheckAdminToken)         // 获取站长信息
+	b.Handle("POST", "/getWebmasterInfoList", "GetWebmasterInfoList", middlers.CheckAdminToken) // 获取站长信息
 }
 
 func (c *SiteController) CreateWebmasterInfo() {
@@ -176,11 +176,11 @@ func (c *SiteController) GetUsedSiteInfo() {
 }
 
 func (c *SiteController) GetSiteInfoList() {
-	//mengxianhou@20240122 这里只返回1个
+	// mengxianhou@20240122 这里只返回1个
 	firstSite := services.NewSiteService().GetUsedSiteInfo()
 
-	result := make([]models.Site, 1)
-	result[0] = *firstSite
+	result := make([]*models.Site, 1)
+	result[0] = firstSite
 	c.RespSuccess(iris.Map{
 		"list": result,
 	}, "获取数据成功")

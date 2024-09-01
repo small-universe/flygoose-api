@@ -56,17 +56,17 @@ func (m *FlygooseApp) run() {
 }
 
 func (m *FlygooseApp) InitDir() {
-	//初始化可执行文件所在目录
+	// 初始化可执行文件所在目录
 	m.Cfg.ExecuteDir = tools.GetExecuteDir()
 	m.Cfg.StaticDir = "/static"
 	m.Cfg.StaticImgDir = "/static/img"
 
-	//创建相应的文件目录
+	// 创建相应的文件目录
 	tools.CreateDir(filepath.Join(m.Cfg.ExecuteDir, m.Cfg.StaticDir))
 	tools.CreateDir(filepath.Join(m.Cfg.ExecuteDir, m.Cfg.StaticImgDir))
 
 	var abcStaticDir = filepath.Join(m.Cfg.ExecuteDir, m.Cfg.StaticDir)
-	m.Engine.HandleDir("/static", abcStaticDir) // http://192.168.1.6:29090/img/aa.jpg
+	m.Engine.HandleDir("/static", abcStaticDir) // http://192.168.1.6:29090/static/img/aa.jpg
 }
 
 func (m *FlygooseApp) initLog() {

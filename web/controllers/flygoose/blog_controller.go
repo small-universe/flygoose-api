@@ -19,18 +19,18 @@ func NewBlogController() *BlogController {
 }
 
 func (c *BlogController) BeforeActivation(b mvc.BeforeActivation) {
-	b.Handle("POST", "/getCateList", "GetCateList")                 //获取博客分类列表
-	b.Handle("POST", "/getCateBlogList", "GetCateBlogList")         //获取分类下的博客列表
-	b.Handle("POST", "/getBlogListByAction", "GetBlogListByAction") //根据action获取博客列表
-	b.Handle("POST", "/getAllTags", "GetAllTags")                   //获取所有的标签
-	b.Handle("POST", "/getBlogListByTag", "GetBlogListByTag")       //根据标签获取博客
-	b.Handle("POST", "/searchBlog", "SearchBlog")                   //搜索博客,只搜索标题
-	b.Handle("POST", "/getBlogDetail", "GetBlogDetail")             //获取博客详情
+	b.Handle("POST", "/getCateList", "GetCateList")                 // 获取博客分类列表
+	b.Handle("POST", "/getCateBlogList", "GetCateBlogList")         // 获取分类下的博客列表
+	b.Handle("POST", "/getBlogListByAction", "GetBlogListByAction") // 根据action获取博客列表
+	b.Handle("POST", "/getAllTags", "GetAllTags")                   // 获取所有的标签
+	b.Handle("POST", "/getBlogListByTag", "GetBlogListByTag")       // 根据标签获取博客
+	b.Handle("POST", "/searchBlog", "SearchBlog")                   // 搜索博客,只搜索标题
+	b.Handle("POST", "/getBlogDetail", "GetBlogDetail")             // 获取博客详情
 }
 
 func (c *BlogController) SearchBlog() {
 	var param beans.SearchBlogBean
-	if err := c.Ctx.ReadForm(&param); err != nil {
+	if err := c.Ctx.ReadJSON(&param); err != nil {
 		c.RespFailedMessage("参数错误: " + err.Error())
 		return
 	}
@@ -55,13 +55,13 @@ func (c *BlogController) SearchBlog() {
 
 func (c *BlogController) GetBlogListByTag() {
 	type Param struct {
-		Name     string `json:"name" validate:"required"`     //标签名字
-		PageNum  int    `json:"pageNum" validate:"required"`  //第几页，从1开始
-		PageSize int    `json:"pageSize" validate:"required"` //每页的数量
+		Name     string `json:"name" validate:"required"`     // 标签名字
+		PageNum  int    `json:"pageNum" validate:"required"`  // 第几页，从1开始
+		PageSize int    `json:"pageSize" validate:"required"` // 每页的数量
 	}
 
 	var param Param
-	if err := c.Ctx.ReadForm(&param); err != nil {
+	if err := c.Ctx.ReadJSON(&param); err != nil {
 		c.RespFailedMessage("参数错误: " + err.Error())
 		return
 	}
@@ -88,13 +88,13 @@ func (c *BlogController) GetAllTags() {
 
 func (c *BlogController) GetCateBlogList() {
 	type Param struct {
-		CateId   int64 `json:"cateId" validate:"required"`   //分类id
-		PageNum  int   `json:"pageNum" validate:"required"`  //第几页，从1开始
-		PageSize int   `json:"pageSize" validate:"required"` //每页的数量
+		CateId   int64 `json:"cateId" validate:"required"`   // 分类id
+		PageNum  int   `json:"pageNum" validate:"required"`  // 第几页，从1开始
+		PageSize int   `json:"pageSize" validate:"required"` // 每页的数量
 	}
 
 	var param Param
-	if err := c.Ctx.ReadForm(&param); err != nil {
+	if err := c.Ctx.ReadJSON(&param); err != nil {
 		c.RespFailedMessage("参数错误: " + err.Error())
 		return
 	}
@@ -116,13 +116,13 @@ func (c *BlogController) GetCateBlogList() {
 
 func (c *BlogController) GetBlogListByAction() {
 	type Param struct {
-		PageNum  int `json:"pageNum" validate:"required"`  //第几页，从1开始
-		PageSize int `json:"pageSize" validate:"required"` //每页的数量
-		Action   int `json:"action" validate:"oneof=0 1"`  //0：获取最新博客，1：获取最热博客
+		PageNum  int `json:"pageNum" validate:"required"`  // 第几页，从1开始
+		PageSize int `json:"pageSize" validate:"required"` // 每页的数量
+		Action   int `json:"action" validate:"oneof=0 1"`  // 0：获取最新博客，1：获取最热博客
 	}
 
 	var param Param
-	if err := c.Ctx.ReadForm(&param); err != nil {
+	if err := c.Ctx.ReadJSON(&param); err != nil {
 		c.RespFailedMessage("参数错误: " + err.Error())
 		return
 	}
@@ -149,7 +149,7 @@ func (c *BlogController) GetCateList() {
 
 func (c *BlogController) GetBlogDetail() {
 	var bean beans.GetBlogDetailBean
-	if err := c.Ctx.ReadForm(&bean); err != nil {
+	if err := c.Ctx.ReadJSON(&bean); err != nil {
 		c.RespFailedMessage("参数错误: " + err.Error())
 		return
 	}
