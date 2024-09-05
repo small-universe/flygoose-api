@@ -9,19 +9,22 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// 全局配置文件实例
-var Cfg Config
-
 type Config struct {
-	Http         HttpCfg     `yaml:"http"`
-	Database     DatabaseCfg `yaml:"database"`
-	ExecuteDir   string
-	StaticDir    string
-	StaticImgDir string
+	Server      ServerCfg   `yaml:"server"`
+	Database    DatabaseCfg `yaml:"database"`
+	FlyGooseCfg FlyGooseCfg `yaml:"flygoose"`
 }
 
-type HttpCfg struct {
+type ServerCfg struct {
 	Port int `yaml:"port"`
+}
+
+type FlyGooseCfg struct {
+	Mode         string `yaml:"mode"`
+	WorkDir      string `yaml:"work_dir"`
+	LogDir       string `yaml:"log_dir"`
+	StaticDir    string
+	StaticImgDir string
 }
 
 type DatabaseCfg struct {
@@ -33,22 +36,29 @@ type DatabaseCfg struct {
 	Password string       `yaml:"password"`
 }
 
-// 数据库类型
+// DbDriverType 数据库类型
 type DbDriverType string
 
 const (
 	DbDriverMySQL      DbDriverType = "mysql"
 	DbDriverPostgreSQL DbDriverType = "postgresql"
+	DbDriverSQLite     DbDriverType = "sqlite"
 )
 
-// 环境
+// EnvModeType 环境
 type EnvModeType string
 
-//const (
+// const (
 //	EnvModeTypeDevelop EnvModeType = "develop" //开发环境
 //	EnvModeTypeProd    EnvModeType = "product" //正式环境
-//)
+// )
 
+const (
+	StaticDir    = "/static"
+	StaticImgDir = "/static/img"
+)
+
+// NewConfig 创建配置文件
 func NewConfig(configFilePath string) (*Config, error) {
 	// 读取配置文件
 	bytes, err := os.ReadFile(configFilePath)
@@ -56,16 +66,16 @@ func NewConfig(configFilePath string) (*Config, error) {
 		return nil, fmt.Errorf("读取配置文件错误. err: %w", err)
 	}
 
-	//解析配置文件到结构体
+	// 解析配置文件到结构体
 	var cfg Config
 	err = yaml.Unmarshal(bytes, &cfg)
 	if err != nil {
 		return nil, fmt.Errorf("解析配置文件错误. err: %w", err)
 	}
 
-	//if err = CheckZeroValue(cfg); err != nil {
+	// if err = CheckZeroValue(cfg); err != nil {
 	//	return nil, fmt.Errorf("检查配置文件错误. env: %s err: %s", configFilePath, err.Error())
-	//}
+	// }
 
 	return &cfg, nil
 }

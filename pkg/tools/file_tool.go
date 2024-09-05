@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-// 获取可执行文件的目录
+// GetExecuteDir 获取可执行文件的目录
 func GetExecuteDir() string {
 	ex, err := os.Executable()
 	if err != nil {
@@ -16,14 +16,14 @@ func GetExecuteDir() string {
 	return exPath
 }
 
-// 判断文件或者文件夹是否存在
+// IsFileExist 判断文件或者文件夹是否存在
 func IsFileExist(path string) bool {
 	fileInfo, err := os.Stat(path)
 
 	if os.IsNotExist(err) {
 		return false
 	}
-	//我这里判断了如果是0也算不存在
+	// 我这里判断了如果是0也算不存在
 	if fileInfo.Size() == 0 {
 		return false
 	}
@@ -33,6 +33,7 @@ func IsFileExist(path string) bool {
 	return false
 }
 
+// CreateDir 创建目录
 func CreateDir(targetDir string) string {
 	if !IsFileExist(targetDir) {
 		err := os.MkdirAll(targetDir, os.ModePerm)

@@ -20,7 +20,7 @@ func NewFileController() *FileController {
 }
 
 func (c *FileController) BeforeActivation(b mvc.BeforeActivation) {
-	b.Handle("POST", "/uploadImg", "UploadImg", iris.LimitRequestBodySize(50*1024*1024)) //上传图片
+	b.Handle("POST", "/uploadImg", "UploadImg", iris.LimitRequestBodySize(50*1024*1024)) // 上传图片
 }
 
 func (c *FileController) UploadImg() {
@@ -34,7 +34,7 @@ func (c *FileController) UploadImg() {
 		return
 	}
 
-	//后缀名
+	// 后缀名
 	var suffix string
 	suffixArr := fh.Header["Content-Type"]
 	if len(suffixArr) > 0 {
@@ -46,8 +46,8 @@ func (c *FileController) UploadImg() {
 	if suffix == "" {
 		suffix = ".png"
 	}
-	//生成文件名
-	var absStaticImgDir = filepath.Join(c.Cfg.ExecuteDir, c.Cfg.StaticImgDir)
+	// 生成文件名
+	var absStaticImgDir = filepath.Join(c.Cfg.FlyGooseCfg.WorkDir, c.Cfg.FlyGooseCfg.StaticImgDir)
 	var newFileName = tools.GenNumberCode(12) + "." + suffix
 	var newAbsFilePath = filepath.Join(absStaticImgDir, newFileName)
 
@@ -58,6 +58,6 @@ func (c *FileController) UploadImg() {
 	}
 
 	c.RespSuccess(iris.Map{
-		"filename": filepath.Join(c.Cfg.StaticImgDir, newFileName),
+		"filename": filepath.Join(c.Cfg.FlyGooseCfg.StaticImgDir, newFileName),
 	}, "上传文件成功")
 }
