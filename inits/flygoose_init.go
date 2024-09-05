@@ -107,7 +107,7 @@ func (m *FlygooseApp) initDB() {
 	m.initAutoMigrate()
 
 	ad := daos.NewAccessDao()
-	cnt, err := ad.CountUsername(configs.Flygoose_Admin_Phone)
+	cnt, err := ad.CountUsername(configs.FlyGooseAdminPhone)
 	if err != nil {
 		fmt.Printf("查询数据库中是否存在默认账户错误. err: %w\n", err)
 		panic(errors.New("查询数据库中是否存在默认账户错误"))
@@ -115,7 +115,7 @@ func (m *FlygooseApp) initDB() {
 
 	if cnt == 0 {
 		initAccountUser := models.Admin{
-			Phone:      configs.Flygoose_Admin_Phone,
+			Phone:      configs.FlyGooseAdminPhone,
 			Password:   "e10adc3949ba59abbe56e057f20f883e",
 			Nicker:     "admin",
 			Avatar:     "https://img-hello-world.oss-cn-beijing.aliyuncs.com/imgs/b3e9e8fb50b3eba780178256a21234ec.jpg",
@@ -152,7 +152,7 @@ func (m *FlygooseApp) initAutoMigrate() {
 }
 
 func (m *FlygooseApp) initRouter() {
-	v1 := m.Engine.Party(configs.Flygoose_Url_Prefix)
+	v1 := m.Engine.Party(configs.FlyGooseUrlPrefix)
 	v1.RegisterDependency(m.Cfg) // 依赖注入
 	{
 		mvc.New(v1.Party("/site")).Handle(flygoose.NewSiteController())

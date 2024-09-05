@@ -54,8 +54,10 @@ type EnvModeType string
 // )
 
 const (
-	StaticDir    = "/static"
-	StaticImgDir = "/static/img"
+	StaticDir          = "/static"
+	StaticImgDir       = "/static/img"
+	FlyGooseUrlPrefix  = "/api"
+	FlyGooseAdminPhone = "12345678901"
 )
 
 // NewConfig 创建配置文件
@@ -105,7 +107,3 @@ func CheckZeroValue(str interface{}) error {
 	}
 	return nil
 }
-
-const Flygoose_Url_Prefix = "/api"
-
-const Flygoose_Admin_Phone = "12345678901"
