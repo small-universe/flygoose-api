@@ -3,14 +3,13 @@ package datasource
 import (
 	"flygoose/configs"
 	"fmt"
-	"gorm.io/driver/sqlite"
-	"path/filepath"
-	"strings"
-
+	"github.com/glebarez/sqlite"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"path/filepath"
+	"strings"
 )
 
 var (

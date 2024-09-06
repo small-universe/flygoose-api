@@ -8,7 +8,7 @@ flygoose:
   log_dir: "./logs" # 不填则使用 work_dir 路径下的log路径
 
 database:
-  # 数据库类型 取值mysql、postgresql 或 sqlite
+  # 数据库类型 取值： mysql、postgresql 或 sqlite
   driver: sqlite
   # 数据库IP
   host: 127.0.0.1

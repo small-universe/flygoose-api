@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  server:
+    container_name: flygoose-api
+    # image: flygoose-api:v1
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "29090:29090"
+    volumes:
+      - ../config.yaml:/apps/flygoose/config.yaml
+      - ../flygoose.db:/apps/flygoose/flygoose.db
+      - ../static:/apps/flygoose/static
+    restart: on-failure
+    networks:
+      - flygoose
+
+networks:
+  flygoose:
+    driver: bridge

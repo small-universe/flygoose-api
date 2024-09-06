@@ -2,6 +2,7 @@ package configs
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"reflect"
@@ -61,25 +62,28 @@ const (
 )
 
 // NewConfig 创建配置文件
-func NewConfig(configFilePath string) (*Config, error) {
+func NewConfig() *Config {
+	fmt.Println(os.Args)
+	// 解析命令行参数
+	configFilePath := *flag.String("c", "config.yaml", "指定配置文件路径")
 	// 读取配置文件
 	bytes, err := os.ReadFile(configFilePath)
 	if err != nil {
-		return nil, fmt.Errorf("读取配置文件错误. err: %w", err)
+		panic(fmt.Errorf("读取配置文件错误. err: %w", err))
 	}
 
 	// 解析配置文件到结构体
 	var cfg Config
 	err = yaml.Unmarshal(bytes, &cfg)
 	if err != nil {
-		return nil, fmt.Errorf("解析配置文件错误. err: %w", err)
+		panic(fmt.Errorf("解析配置文件错误. err: %w", err))
 	}
 
 	// if err = CheckZeroValue(cfg); err != nil {
 	//	return nil, fmt.Errorf("检查配置文件错误. env: %s err: %s", configFilePath, err.Error())
 	// }
 
-	return &cfg, nil
+	return &cfg
 }
 
 // CheckZeroValue 检验配置文件各个字段不能为空. str必须为一个结构体类型.
