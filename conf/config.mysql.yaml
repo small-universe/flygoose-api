@@ -1,0 +1,21 @@
+# 服务端口
+server:
+  port: 29089
+
+flygoose:
+  work_dir: "./" # 不填默认为当前路径，用来存放日志文件、数据库文件、模板、上传的附件等
+  log_dir: "./lgs" # 不填则使用 work_dir 路径下的log路径
+
+database:
+  # 数据库类型 取值： mysql、postgresql 或 sqlite
+  driver: mysql
+  # 数据库IP
+  host: 127.0.0.1
+  # 数据库端口
+  port: 3377
+  # 数据库名称
+  name: db_flygoose
+  # 用户名
+  user: root
+  # 密码
+  password: root
