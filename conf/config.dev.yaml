@@ -1,10 +1,10 @@
 # 服务端口
 server:
-  port: 29089
+  port: 29090
 
 flygoose:
   work_dir: "./" # 不填默认为当前路径，用来存放日志文件、数据库文件、模板、上传的附件等
-  log_dir: "./lgs" # 不填则使用 work_dir 路径下的log路径
+  log_dir: "./logs" # 不填则使用 work_dir 路径下的log路径
 
 database:
   # 数据库类型 取值： mysql、postgresql 或 sqlite

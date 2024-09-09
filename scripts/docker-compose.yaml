@@ -3,13 +3,14 @@ version: "3.9"
 services:
   server:
     container_name: flygoose-api
-    # image: flygoose-api:v1
+    image: flygoose-api:v1
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile
     ports:
       - "29090:29090"
     volumes:
+      - ../conf:/apps/flygoose/conf
       - ../config.yaml:/apps/flygoose/config.yaml
       - ../flygoose.db:/apps/flygoose/flygoose.db
       - ../static:/apps/flygoose/static
