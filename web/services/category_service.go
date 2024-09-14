@@ -28,3 +28,11 @@ func (s *CategoryService) GetCategoryList(status int) []models.Category {
 		return s.categoryDao.GetCategoryListByStatus(status)
 	}
 }
+
+func (s *CategoryService) PageQueryByStatus(status int, pageNum int, pageSize int) ([]models.Category, int64) {
+	if status == -1 {
+		return s.categoryDao.PageQuery(pageNum, pageSize)
+	} else {
+		return s.categoryDao.PageQueryByStatus(status, pageNum, pageSize)
+	}
+}

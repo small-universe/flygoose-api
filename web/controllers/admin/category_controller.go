@@ -21,12 +21,12 @@ func NewCategoryController() *CategoryController {
 }
 
 func (c *CategoryController) BeforeActivation(b mvc.BeforeActivation) {
-	b.Handle("POST", "/create", "Create", middlers.CheckAdminToken)                   //创建分类
-	b.Handle("POST", "/update", "Update", middlers.CheckAdminToken)                   //更新分类
-	b.Handle("POST", "/getCategoryList", "GetCategoryList", middlers.CheckAdminToken) //获取分类列表
+	b.Handle("POST", "/create", "Create", middlers.CheckAdminToken)                       // 创建分类
+	b.Handle("POST", "/update", "Update", middlers.CheckAdminToken)                       // 更新分类
+	b.Handle("POST", "/pageQueryByStatus", "PageQueryByStatus", middlers.CheckAdminToken) // 获取分类列表
 }
 
-func (c *CategoryController) GetCategoryList() {
+func (c *CategoryController) PageQueryByStatus() {
 	var bean beans.CatePageStatusBean
 	if err := c.Ctx.ReadForm(&bean); err != nil {
 		c.RespFailedMessage("参数错误: " + err.Error())
@@ -39,9 +39,10 @@ func (c *CategoryController) GetCategoryList() {
 		return
 	}
 
-	list := services.NewCategoryService().GetCategoryList(bean.Status)
+	list, count := services.NewCategoryService().PageQueryByStatus(bean.Status, bean.PageNum, bean.PageSize)
 	c.RespSuccess(iris.Map{
-		"list": list,
+		"list":  list,
+		"count": count,
 	}, "获取成功")
 }
 

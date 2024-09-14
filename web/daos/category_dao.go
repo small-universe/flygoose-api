@@ -60,3 +60,39 @@ func (dao *CategoryDao) GetCategoryListByStatus(status int) []models.Category {
 	}
 	return list
 }
+
+func (dao *CategoryDao) PageQuery(pageNum int, pageSize int) ([]models.Category, int64) {
+	var list []models.Category
+	var count int64
+	result := dao.db.Model(&models.Category{}).Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("seq").Find(&list)
+	if result.Error != nil {
+		tlog.Error2("CategoryDao:PageQuery Find 出错", result.Error)
+		return nil, 0
+	}
+
+	result = dao.db.Model(&models.Category{}).Count(&count)
+	if result.Error != nil {
+		tlog.Error2("CategoryDao:PageQuery Count 出错", result.Error)
+		return nil, 0
+	}
+
+	return list, count
+}
+
+func (dao *CategoryDao) PageQueryByStatus(status int, pageNum int, pageSize int) ([]models.Category, int64) {
+	var list []models.Category
+	var count int64
+	result := dao.db.Model(&models.Category{}).Where("status=?", status).Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("seq").Find(&list)
+	if result.Error != nil {
+		tlog.Error2("CategoryDao:PageQueryByStatus Find 出错", result.Error)
+		return nil, 0
+	}
+
+	result = dao.db.Model(&models.Category{}).Count(&count)
+	if result.Error != nil {
+		tlog.Error2("CategoryDao:PageQueryByStatus Count 出错", result.Error)
+		return nil, 0
+	}
+
+	return list, count
+}
