@@ -5,7 +5,7 @@ MAINTAINER Nick
 # 全局工作目录
 WORKDIR /flygoose
 # 把运行Dockerfile文件的当前目录所有文件复制到目标目录
-COPY . /flygoose
+COPY ../scripts /flygoose
 # 环境变量
 # 用于代理下载go项目依赖的包
 ENV GOPROXY https://goproxy.cn,direct
