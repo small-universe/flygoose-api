@@ -5,8 +5,8 @@ services:
     container_name: flygoose-api
     image: flygoose-api:v1
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./docker/Dockerfile
     ports:
       - "29090:29090"
     volumes:
