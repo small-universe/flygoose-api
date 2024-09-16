@@ -3,7 +3,9 @@ version: "3.9"
 services:
   server:
     container_name: flygoose-api
-    image: flygoose-api:v1
+    image: ${IMAGE_NAME}:${VERSION}
+    env_file:
+      - ./.env
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
